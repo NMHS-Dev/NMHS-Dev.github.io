@@ -1,0 +1,13 @@
+# Create a folder under the drive root
+$ mkdir actions-runner; cd actions-runner# Download the latest runner package
+$ Invoke-WebRequest -Uri https://github.com/actions/runner/releases/download/v2.303.0/actions-runner-win-x64-2.303.0.zip -OutFile actions-runner-win-x64-2.303.0.zip# Optional: Validate the hash
+$ if((Get-FileHash -Path actions-runner-win-x64-2.303.0.zip -Algorithm SHA256).Hash.ToUpper() -ne '2368cd782c5b0dba1af8f90e1cc1c294cce2d165ed24f026577304b66440b31e'.ToUpper()){ throw 'Computed checksum did not match' }# Extract the installer
+$ Add-Type -AssemblyName System.IO.Compression.FileSystem ; [System.IO.Compression.ZipFile]::ExtractToDirectory("$PWD/actions-runner-win-x64-2.303.0.zip", "$PWD")
+
+
+#Configure
+# Create the runner and start the configuration experience
+$ ./config.cmd --url https://github.com/NMHS-Dev/NM-Learning-Project --token A2UJFDK4T5YZ3GPQZBLFS7DEHWF3Y# Run it!
+$ ./run.cmd
+# Use this YAML in your workflow file for each job
+runs-on: self-hosted
